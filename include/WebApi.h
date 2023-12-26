@@ -4,6 +4,7 @@
 #include "WebApi_config.h"
 #include "WebApi_device.h"
 #include "WebApi_devinfo.h"
+#include "WebApi_display.h"
 #include "WebApi_dtu.h"
 #include "WebApi_errors.h"
 #include "WebApi_eventlog.h"
@@ -48,6 +49,7 @@ private:
     WebApiConfigClass _webApiConfig;
     WebApiDeviceClass _webApiDevice;
     WebApiDevInfoClass _webApiDevInfo;
+    WebApiDisplayClass _webApiDisplay;
     WebApiDtuClass _webApiDtu;
     WebApiEventlogClass _webApiEventlog;
     WebApiFirmwareClass _webApiFirmware;

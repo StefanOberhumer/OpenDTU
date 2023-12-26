@@ -15,6 +15,8 @@
                         type="button" role="tab" aria-controls="nav-display">{{ $t('deviceadmin.Display') }}</button>
                     <button class="nav-link" id="nav-leds-tab" data-bs-toggle="tab" data-bs-target="#nav-leds"
                         type="button" role="tab" aria-controls="nav-leds">{{ $t('deviceadmin.Leds') }}</button>
+                    <button class="nav-link" id="nav-webdisplay-tab" data-bs-toggle="tab" data-bs-target="#nav-webdisplay"
+                        type="button" role="tab" aria-controls="nav-webdisplay">{{ $t('deviceadmin.Webdisplay') }}</button>
                 </div>
             </nav>
             <div class="tab-content" id="nav-tabContent">
@@ -148,6 +150,25 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="tab-pane fade show" id="nav-webdisplay" role="tabpanel" aria-labelledby="nav-webdisplay-tab" tabindex="0">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label">
+                                    {{ $t('deviceadmin.WebDisplay') }}
+                                </label>
+                                <div class="col-sm-10">
+                                    <a href="/webDisplay/webDisplay.html"
+                                       target="_blank" v-tooltip :title="$t('webdisplay.WebDisplayHint')">
+                                    /webDisplay/webDisplay.html
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
             <FormFooter @reload="getDeviceConfig"/>

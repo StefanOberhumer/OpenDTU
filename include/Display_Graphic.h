@@ -43,6 +43,8 @@ public:
     void setLanguage(const uint8_t language);
     void setDiagramMode(DiagramMode_t mode);
     void setStartupDisplay();
+    void getDisplayInfo(uint8_t &displayType, uint8_t &displayHeight, uint8_t &displayWidth, uint8_t &bufferTileHeight, uint8_t &bufferTileWidth, size_t &bufferSize);
+    void getBufferCopy(size_t &bufferSize, uint8_t *buffer);
 
     DisplayGraphicDiagramClass& Diagram();
 

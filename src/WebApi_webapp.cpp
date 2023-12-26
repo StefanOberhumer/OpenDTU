@@ -11,6 +11,11 @@ extern const uint8_t file_favicon_png_start[] asm("_binary_webapp_dist_favicon_p
 extern const uint8_t file_zones_json_start[] asm("_binary_webapp_dist_zones_json_gz_start");
 extern const uint8_t file_app_js_start[] asm("_binary_webapp_dist_js_app_js_gz_start");
 extern const uint8_t file_site_webmanifest_start[] asm("_binary_webapp_dist_site_webmanifest_start");
+extern const uint8_t file_webDisplay_webDisplay_html_gz_start[] asm("_binary_webapp_dist_webDisplay_webDisplay_html_gz_start");
+extern const uint8_t file_webDisplay_webDisplay_js_gz_start[] asm("_binary_webapp_dist_webDisplay_webDisplay_js_gz_start");
+extern const uint8_t file_webDisplay_PCD8544_svg_start[] asm("_binary_webapp_dist_webDisplay_PCD8544_svg_start");
+extern const uint8_t file_webDisplay_SH1106_svg_start[] asm("_binary_webapp_dist_webDisplay_SH1106_svg_start");
+extern const uint8_t file_webDisplay_SSD1306_svg_start[] asm("_binary_webapp_dist_webDisplay_SSD1306_svg_start");
 
 extern const uint8_t file_index_html_end[] asm("_binary_webapp_dist_index_html_gz_end");
 extern const uint8_t file_favicon_ico_end[] asm("_binary_webapp_dist_favicon_ico_end");
@@ -18,6 +23,11 @@ extern const uint8_t file_favicon_png_end[] asm("_binary_webapp_dist_favicon_png
 extern const uint8_t file_zones_json_end[] asm("_binary_webapp_dist_zones_json_gz_end");
 extern const uint8_t file_app_js_end[] asm("_binary_webapp_dist_js_app_js_gz_end");
 extern const uint8_t file_site_webmanifest_end[] asm("_binary_webapp_dist_site_webmanifest_end");
+extern const uint8_t file_webDisplay_webDisplay_html_gz_end[] asm("_binary_webapp_dist_webDisplay_webDisplay_html_gz_end");
+extern const uint8_t file_webDisplay_webDisplay_js_gz_end[] asm("_binary_webapp_dist_webDisplay_webDisplay_js_gz_end");
+extern const uint8_t file_webDisplay_PCD8544_svg_end[] asm("_binary_webapp_dist_webDisplay_PCD8544_svg_end");
+extern const uint8_t file_webDisplay_SH1106_svg_end[] asm("_binary_webapp_dist_webDisplay_SH1106_svg_end");
+extern const uint8_t file_webDisplay_SSD1306_svg_end[] asm("_binary_webapp_dist_webDisplay_SSD1306_svg_end");
 
 void WebApiWebappClass::responseBinaryDataWithETagCache(AsyncWebServerRequest *request, const String &contentType, const String &contentEncoding, const uint8_t *content, size_t len)
 {
@@ -92,5 +102,25 @@ void WebApiWebappClass::init(AsyncWebServer& server, Scheduler& scheduler)
 
     server.on("/js/app.js", HTTP_GET, [&](AsyncWebServerRequest* request) {
         responseBinaryDataWithETagCache(request, "text/javascript", "gzip", file_app_js_start, file_app_js_end - file_app_js_start);
+    });
+
+    server.on("/webDisplay/webDisplay.html", HTTP_GET, [&](AsyncWebServerRequest* request) {
+        responseBinaryDataWithETagCache(request, "text/html", "gzip", file_webDisplay_webDisplay_html_gz_start, file_webDisplay_webDisplay_html_gz_end - file_webDisplay_webDisplay_html_gz_start);
+    });
+
+    server.on("/webDisplay/webDisplay.js", HTTP_GET, [&](AsyncWebServerRequest* request) {
+        responseBinaryDataWithETagCache(request, "text/javascript", "gzip", file_webDisplay_webDisplay_js_gz_start, file_webDisplay_webDisplay_js_gz_end - file_webDisplay_webDisplay_js_gz_start);
+    });
+
+    server.on("/webDisplay/PCD8544.svg", HTTP_GET, [&](AsyncWebServerRequest* request) {
+        responseBinaryDataWithETagCache(request, "image/svg+xml", "", file_webDisplay_PCD8544_svg_start, file_webDisplay_PCD8544_svg_end - file_webDisplay_PCD8544_svg_start);
+    });
+
+    server.on("/webDisplay/SH1106.svg", HTTP_GET, [&](AsyncWebServerRequest* request) {
+        responseBinaryDataWithETagCache(request, "image/svg+xml", "", file_webDisplay_SH1106_svg_start, file_webDisplay_SH1106_svg_end - file_webDisplay_SH1106_svg_start);
+    });
+
+    server.on("/webDisplay/SSD1306.svg", HTTP_GET, [&](AsyncWebServerRequest* request) {
+        responseBinaryDataWithETagCache(request, "image/svg+xml", "", file_webDisplay_SSD1306_svg_start, file_webDisplay_SSD1306_svg_end - file_webDisplay_SSD1306_svg_start);
     });
 }

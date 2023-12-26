@@ -202,6 +202,15 @@ void DisplayGraphicClass::loop()
     bool displayPowerSave = false;
     bool showText = true;
 
+    #if 0
+    {
+        const uint8_t maxx = _display->getWidth() - 1;
+        const uint8_t maxy = _display->getHeight() - 1;
+        _display->drawPixel(0,0); _display->drawPixel(maxx,0);
+        _display->drawPixel(0,maxy); _display->drawPixel(maxx, maxy);
+    }
+    #endif
+
     //=====> Actual Production ==========
     if (Datastore.getIsAtLeastOneReachable()) {
         displayPowerSave = false;
@@ -264,7 +273,11 @@ void DisplayGraphicClass::loop()
         //=====> IP or Date-Time ========
         // Change every 3 seconds
         if (!(_mExtra % (3 * 2) < 3) && NetworkSettings.localIP()) {
+            #if 0
             printText(NetworkSettings.localIP().toString().c_str(), 3);
+            #else
+            printText("123.456.789.012", 3);
+            #endif
         } else {
             // Get current time
             time_t now = time(nullptr);
@@ -295,6 +308,41 @@ void DisplayGraphicClass::setContrast(const uint8_t contrast)
 void DisplayGraphicClass::setStatus(const bool turnOn)
 {
     _displayTurnedOn = turnOn;
+}
+
+void DisplayGraphicClass::getDisplayInfo(uint8_t &displayType, uint8_t &displayHeight, uint8_t &displayWidth,
+                                         uint8_t &bufferTileHeight, uint8_t &bufferTileWidth, size_t &bufferSize)
+{
+    displayType = _display_type;
+    if (_display_type == DisplayType_t::None) {
+        displayHeight = 0;
+        displayWidth = 0;
+        bufferTileHeight = 0;
+        bufferTileWidth = 0;
+        bufferSize = 0;
+        return;
+    }
+    displayHeight = _display->getHeight();
+    displayWidth = _display->getWidth();
+    bufferTileHeight = _display->getBufferTileHeight();
+    bufferTileWidth = _display->getBufferTileWidth();
+    bufferSize = bufferTileHeight * bufferTileWidth * 8;
+}
+
+void DisplayGraphicClass::getBufferCopy(size_t &bufferSize, uint8_t *buffer)
+{
+    if (_display_type == DisplayType_t::None) {
+        return;
+    }
+    const uint8_t bufferTileHeight = _display->getBufferTileHeight();
+    const uint8_t bufferTileWidth = _display->getBufferTileWidth();
+    const size_t bufferSizeInternal = bufferTileHeight * bufferTileWidth * 8;
+    const size_t bufferSizeCopy = min(bufferSizeInternal, bufferSize);
+    if (buffer && bufferSizeCopy) {
+        // TODO & CHECK: Should we implement an atomic lock here and DisplayGraphicClass::loop() ?
+        memcpy(buffer, _display->getBufferPtr(), bufferSizeCopy);
+    }
+    bufferSize = bufferSizeCopy;
 }
 
 DisplayGraphicClass Display;
